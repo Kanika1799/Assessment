@@ -37,6 +37,17 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Avatar from "@material-ui/core/Avatar";
 import { purple } from "@material-ui/core/colors";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import FormatAlignLeftIcon from "@material-ui/icons/FormatAlignLeft";
+import FormatAlignCenterIcon from "@material-ui/icons/FormatAlignCenter";
+import FormatAlignRightIcon from "@material-ui/icons/FormatAlignRight";
+import FormatAlignJustifyIcon from "@material-ui/icons/FormatAlignJustify";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import BuildOutlinedIcon from "@material-ui/icons/BuildOutlined";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import clsx from "clsx";
+
 const drawerWidth = 240;
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -104,39 +115,38 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.black, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.black, 0.25),
-    },
-    marginLeft: 20,
-    marginTop: 30,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  // search: {
+  //   position: "relative",
+  //   borderRadius: 10,
+  //   backgroundColor: "#f6f7f9",
+  //   "&:hover": {
+  //     backgroundColor: "#f6f7f9",
+  //   },
+  //   marginLeft: 20,
+  //   color: "#5842be",
+  //   marginTop: 15,
+  //   width: "100%",
+  //   [theme.breakpoints.up("sm")]: {
+  //     width: "auto",
+  //   },
+  // },
+  // searchIcon: {
+  //   height: "100%",
+  //   position: "absolute",
+
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
   inputRoot: {
-    color: "indigo[50]",
+    color: "#5842be",
   },
   inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    padding: theme.spacing(1, 1, 1, 1),
+    // // vertical padding + font size from searchIcon
+    paddingLeft: `calc(0em + ${theme.spacing(1)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
+    color: "#5842be",
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
       "&:focus": {
@@ -169,13 +179,100 @@ const useStyles = makeStyles((theme) => ({
       color: "#f6f7f9",
     },
   },
+  selectAll: {
+    "&:before": {
+      border: "none",
+    },
+    "&:after": {
+      border: "none",
+    },
+  },
+  rootCheck: {
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
+  icon: {
+    borderRadius: 3,
+    width: 16,
+    height: 16,
+    backgroundColor: "#c4c4c4",
+    "input:hover ~ &": {
+      backgroundColor: "#ebf1f5",
+    },
+  },
+  iconList: {
+    color: "#5842be",
+    "&$selected": {
+      color: "white",
+    },
+    "&:hover": {
+      color: "white",
+    },
+  },
+  checkedIcon: {
+    backgroundColor: "#5842be",
+    "input:hover ~ &": {
+      backgroundColor: "#5842be",
+    },
+  },
+  listItemC: {
+    marginLeft: 10,
+    height: 50,
+
+    "&$selected": {
+      backgroundColor: "#5842be",
+      borderRadius: 5,
+      height: 50,
+
+      color: "white",
+      "&:hover": {
+        backgroundColor: "#5842be",
+      },
+    },
+  },
+  tabsButton: {
+    color: "#302e4f",
+    border: "none",
+    fontSize: 20,
+    fontWeight: "bold",
+    "&$selected": {
+      backgroundColor: "#5842be",
+      color: "white",
+      borderRadius: 10,
+    },
+    "&$hover": {
+      backgroundColor: "#5842be",
+      color: "white",
+    },
+    "&$active": {
+      backgroundColor: "#5842be",
+      color: "white",
+    },
+  },
+  listItemIcon: {
+    "&$selected": {
+      color: "white",
+    },
+  },
+  selected: {},
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
 export default function MenuBar() {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [subject, setSubject] = React.useState("chemistry");
 
+  const handleSubject = (event, newSubject) => {
+    setSubject(newSubject);
+  };
   let checkboxes = [];
 
   for (var i = 0; i <= 3; i++) {
@@ -185,8 +282,14 @@ export default function MenuBar() {
           <FormControlLabel
             control={
               <Checkbox
-                name="checkedB"
-                style={{ marginLeft: 0, color: "#5842be" }}
+                className={classes.rootCheck}
+                disableRipple
+                color="default"
+                checkedIcon={
+                  <span className={clsx(classes.icon, classes.checkedIcon)} />
+                }
+                icon={<span className={classes.icon} />}
+                inputProps={{ "aria-label": "decorative checkbox" }}
               />
             }
             label="Chapter"
@@ -196,8 +299,14 @@ export default function MenuBar() {
           <FormControlLabel
             control={
               <Checkbox
-                name="checkedB"
-                style={{ marginLeft: 0, color: "#5842be" }}
+                className={classes.rootCheck}
+                disableRipple
+                color="default"
+                checkedIcon={
+                  <span className={clsx(classes.icon, classes.checkedIcon)} />
+                }
+                icon={<span className={classes.icon} />}
+                inputProps={{ "aria-label": "decorative checkbox" }}
               />
             }
             label="Chapter"
@@ -207,8 +316,14 @@ export default function MenuBar() {
           <FormControlLabel
             control={
               <Checkbox
-                name="checkedB"
-                style={{ marginLeft: 0, color: "#5842be" }}
+                className={classes.rootCheck}
+                disableRipple
+                color="default"
+                checkedIcon={
+                  <span className={clsx(classes.icon, classes.checkedIcon)} />
+                }
+                icon={<span className={classes.icon} />}
+                inputProps={{ "aria-label": "decorative checkbox" }}
               />
             }
             label="Chapter"
@@ -231,6 +346,12 @@ export default function MenuBar() {
   };
   const [age, setAge] = React.useState("");
 
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -243,168 +364,119 @@ export default function MenuBar() {
           <Typography variant="h6" noWrap>
             <Grid container spacing={3}>
               <Grid item xs>
-                <div>
-                  <FormControl
-                    variant="outlined"
-                    style={{ borderRadius: 50 }}
-                    className={classes.formControl}
+                <div
+                  style={{
+                    backgroundColor: "#f6f7f9",
+                    borderRadius: 10,
+                    marginTop: 20,
+                    marginLeft: 20,
+                  }}
+                >
+                  <Button
+                    style={{
+                      padding: 15,
+                      color: "#5842be",
+                      fontWeight: "bold",
+                    }}
+                    size="large"
+                    className={classes.margin}
                   >
-                    <InputLabel
-                      id="demo-simple-select-outlined-label"
-                      style={{
-                        color: "#5842be",
-                        fontSize: 20,
-                      }}
-                    >
-                      Activity
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
-                      className={classes.selectBtn}
+                    Activity
+                    <ArrowDropDownIcon
                       style={{
                         backgroundColor: "#f6f7f9",
                         color: "#5842be",
-                        borderRadius: 10,
+                        fontWeight: "bold",
                       }}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem
-                        value={10}
-                        style={{
-                          backgroundColor: "#f6f7f9",
-                          color: "#5842be",
-                        }}
-                      >
-                        Ten
-                      </MenuItem>
-                      <MenuItem
-                        value={20}
-                        style={{
-                          backgroundColor: "#f6f7f9",
-                          color: "#5842be",
-                        }}
-                      >
-                        Twenty
-                      </MenuItem>
-                      <MenuItem
-                        value={30}
-                        style={{
-                          backgroundColor: "#f6f7f9",
-                          color: "#5842be",
-                        }}
-                      >
-                        Thirty
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
+                    />
+                  </Button>{" "}
+                  <Button
+                    style={{
+                      padding: 15,
+                      color: "#5842be",
+                      fontWeight: "bold",
+                    }}
+                    size="large"
+                    className={classes.margin}
                   >
-                    <InputLabel
-                      style={{
-                        color: "#5842be",
-                        fontSize: 20,
-                      }}
-                      id="demo-simple-select-outlined-label"
-                    >
-                      Tool Guide
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
+                    Tool Guide
+                    <ArrowDropDownIcon
                       style={{
                         backgroundColor: "#f6f7f9",
                         color: "#5842be",
-                        borderRadius: 10,
+                        fontWeight: "bold",
                       }}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem
-                        value={10}
-                        style={{
-                          backgroundColor: "#f6f7f9",
-                          color: "#5842be",
-                        }}
-                      >
-                        Ten
-                      </MenuItem>
-                      <MenuItem
-                        value={20}
-                        style={{
-                          backgroundColor: "#f6f7f9",
-                          color: "#5842be",
-                        }}
-                      >
-                        Twenty
-                      </MenuItem>
-                      <MenuItem
-                        value={30}
-                        style={{
-                          backgroundColor: "#f6f7f9",
-                          color: "#5842be",
-                        }}
-                      >
-                        Thirty
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
+                    />
+                  </Button>
                 </div>
               </Grid>
               <Grid item xs>
                 <div
-                  style={{ marginTop: 9, marginLeft: 200 }}
+                  style={{
+                    marginTop: 20,
+                    marginLeft: 370,
+                    float: "right",
+                    borderRadius: 10,
+                  }}
                   className={classes.search}
                 >
-                  <div className={classes.searchIcon}>
-                    <SearchIcon style={{ color: "#5842be" }} />
-                  </div>
-                  <InputBase
-                    placeholder="Search…"
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                    }}
+                  <div
                     style={{
-                      height: 54,
                       color: "#5842be",
                       backgroundColor: "#f6f7f9",
                       borderRadius: 10,
-                      fontSize: 20,
                     }}
-                    inputProps={{ "aria-label": "search" }}
-                  />
+                    size="large"
+                    className={classes.searchIcon}
+                  >
+                    <SearchIcon
+                      style={{
+                        color: "#5842be",
+                        backgroundColor: "#f6f7f9",
+                        marginLeft: 10,
+                        marginTop: 12,
+                      }}
+                    />
+
+                    <InputBase
+                      placeholder="Search…"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      style={{
+                        height: 50,
+                        color: "#5842be",
+                        backgroundColor: "#f6f7f9",
+
+                        fontSize: 20,
+                      }}
+                      inputProps={{ "aria-label": "search" }}
+                    />
+                  </div>
                 </div>
               </Grid>
               <Grid item xs>
                 <Button
-                  variant="contained"
                   style={{
-                    marginTop: 10,
-                    marginLeft: 180,
+                    marginTop: 20,
                     backgroundColor: "#f6f7f9",
                     color: purple[500],
                     borderRadius: 10,
+                    boxShadow: 0,
                   }}
                 >
                   <NotificationsIcon
                     style={{
                       backgroundColor: "#f6f7f9",
                       color: "#5842be",
+                      margin: 5,
+                      width: 30,
+                      height: 35,
                     }}
                   />
                   <Avatar
+                    style={{ marginLeft: 20 }}
                     alt="Remy Sharp"
                     src="https://cdn3.iconfinder.com/data/icons/business-avatar-1/512/7_avatar-512.png"
                   />
@@ -426,16 +498,24 @@ export default function MenuBar() {
         classes={{
           paper: classes.drawerPaper,
         }}
+        style={{ borderColor: "white" }}
         anchor="left"
       >
         <div className={classes.toolbar} />
         <h1 style={{ textAlign: "center" }}>LOGO</h1>
         <Button
-          variant="contained"
           color="default"
-          style={{ backgroundColor: "#f6f7f9", borderRadius: 10, fontSize: 20 }}
+          style={{
+            backgroundColor: "#f3f3f3",
+            color: "#a8a8a8",
+            borderRadius: 10,
+            fontSize: 15,
+            width: 200,
+            marginLeft: 15,
+            height: 50,
+          }}
           className={classes.button}
-          startIcon={<CloudUploadIcon />}
+          startIcon={<BuildOutlinedIcon />}
         >
           TOOLS
         </Button>
@@ -451,16 +531,37 @@ export default function MenuBar() {
             "Material Sorter",
             "Test Creator",
           ].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon style={{ color: "#5842be" }}>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
+            <ListItem
+              selected={selectedIndex === index}
+              onClick={(event) => handleListItemClick(event, index)}
+              button
+              key={text}
+              classes={{ root: classes.listItemC, selected: classes.selected }}
+            >
+              {selectedIndex === index ? (
+                <ListItemIcon
+                  className={classes.iconList}
+                  style={{ color: "white" }}
+                >
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+              ) : (
+                <ListItemIcon
+                  className={classes.iconList}
+                  style={{ color: "#5842be" }}
+                >
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+              )}
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
       </Drawer>
-      <main className={classes.content}>
+      <main
+        style={{ backgroundColor: "white", height: 800 }}
+        className={classes.content}
+      >
         <div className={classes.toolbar} />
         {/* <ButtonGroup disableElevation variant="contained" color="primary">
                   <Button>One<Icon style={{ color: "purple" , fontSize: "small"}}></Icon></Button>
@@ -470,432 +571,486 @@ export default function MenuBar() {
         <div>
           <Button
             style={{
-              marginTop: 35,
-              marginLeft: 33,
+              marginTop: 55,
+              marginLeft: 45,
               marginBottom: 25,
               backgroundColor: "#f6f7f9",
-              color: "black",
+              color: "#302e4f",
               height: 60,
               borderRadius: 10,
               fontSize: 20,
+              width: 200,
+              fontWeight: "bold",
             }}
-            variant="contained"
           >
             Add Syllabus
           </Button>
         </div>
         <div>
-          <AppBar
-            style={{
-              marginTop: 40,
-              marginLeft: 33,
-              width: 1200,
-              backgroundColor: "#f6f7f9",
-              color: "#5842be",
-              boxShadow: 0,
-            }}
-            position="static"
-          >
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-              className="New"
+          <div>
+            <ToggleButtonGroup
+              style={{
+                marginLeft: 48,
+                backgroundColor: "#f6f7f9",
+                border: "none",
+                borderRadius: 10,
+                marginTop: 30,
+              }}
+              value={subject}
+              size="large"
+              exclusive
+              onChange={handleSubject}
+              aria-label="text alignment"
             >
-              <Tab
-                className="New"
-                style={{ fontSize: 20 }}
-                label="Physics"
-                {...a11yProps(0)}
-              />
-              <Tab
-                className="New"
-                style={{ fontSize: 20 }}
-                label="Chemistry"
-                {...a11yProps(1)}
-              />
-              <Tab
-                className="New"
-                style={{ fontSize: 20 }}
-                label="Maths"
-                {...a11yProps(2)}
-              />
-            </Tabs>
-          </AppBar>
-          <SwipeableViews
-            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-            index={value}
-            onChangeIndex={handleChangeIndex}
-          >
-            <TabPanel value={value} index={0} dir={theme.direction}>
-              <Grid container spacing={3}>
-                <Grid item xs>
-                  <h3>Chapters</h3>
-                  <Card
-                    style={{
-                      backgroundColor: "#f6f7f9",
-                      border: 0,
-                    }}
-                    className={classes.root}
-                    variant="outlined"
-                  >
-                    <CardContent>
-                      <Chip
-                        style={{
-                          marginLeft: 5,
-                          backgroundColor: "#5842be",
-                          color: "#f6f7f9",
-                        }}
-                        size="small"
-                        label="Basic"
-                      />
-                      <Chip
-                        style={{
-                          marginLeft: 5,
-                          backgroundColor: "#5842be",
-                          color: "#f6f7f9",
-                        }}
-                        size="small"
-                        label="Basic"
-                        color="primary"
-                      />
-                      <Chip
-                        style={{
-                          marginLeft: 5,
-                          backgroundColor: "#5842be",
-                          color: "#f6f7f9",
-                        }}
-                        size="small"
-                        label="Basic"
-                        color="primary"
-                      />
-                      {checkboxes}
-                    </CardContent>
-                    <CardActions></CardActions>
-                  </Card>
-                </Grid>
-                <Grid item xs>
-                  <h3>Concepts</h3>
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    style={{
-                      backgroundColor: "#f6f7f9",
-                      color: "#5842be",
-                      width: 280,
-                    }}
-                  >
-                    <InputLabel
+              <ToggleButton
+                classes={{
+                  root: classes.tabsButton,
+                  selected: classes.selected,
+                }}
+                style={{
+                  width: 400,
+                  height: 60,
+                }}
+                value="physics"
+                aria-label="left aligned"
+              >
+                {"Physics"}
+              </ToggleButton>
+              <ToggleButton
+                classes={{
+                  root: classes.tabsButton,
+                  selected: classes.selected,
+                }}
+                style={{
+                  width: 400,
+                  height: 60,
+                }}
+                value="chemistry"
+                aria-label="centered"
+              >
+                {"Chemistry"}
+              </ToggleButton>
+              <ToggleButton
+                classes={{
+                  root: classes.tabsButton,
+                  selected: classes.selected,
+                }}
+                style={{
+                  width: 400,
+                  height: 60,
+                }}
+                value="maths"
+                aria-label="right aligned"
+              >
+                {"Maths"}
+              </ToggleButton>
+            </ToggleButtonGroup>
+            {subject === "physics" ? (
+              <div>
+                <Grid
+                  style={{ marginLeft: 35, marginTop: 20 }}
+                  container
+                  spacing={3}
+                >
+                  <Grid item xs>
+                    <h3>Chapters</h3>
+                    <Card
+                      style={{
+                        backgroundColor: "#f6f7f9",
+                        border: 0,
+                        width: 350,
+                        borderRadius: 20,
+                      }}
+                      variant="outlined"
+                    >
+                      <CardContent>
+                        <Chip
+                          style={{
+                            marginLeft: 5,
+                            backgroundColor: "#5842be",
+                            color: "#f6f7f9",
+                            marginBottom: 20,
+                          }}
+                          size="small"
+                          label="Trignometry"
+                        />
+                        <Chip
+                          style={{
+                            marginLeft: 5,
+                            backgroundColor: "#5842be",
+                            color: "#f6f7f9",
+                            marginBottom: 20,
+                          }}
+                          size="small"
+                          label="Basic"
+                          color="Progression"
+                        />
+                        <Chip
+                          style={{
+                            marginLeft: 5,
+                            backgroundColor: "#5842be",
+                            color: "#f6f7f9",
+                            marginBottom: 20,
+                          }}
+                          size="small"
+                          label="Basic"
+                          color="Probability"
+                        />
+                        {checkboxes}
+                      </CardContent>
+                      <CardActions></CardActions>
+                    </Card>
+                  </Grid>
+                  <Grid item xs>
+                    <h3 style={{ marginLeft: 7 }}>Concepts</h3>
+                    <FormControl
+                      variant="filled"
+                      className={classes.formControl}
                       style={{
                         backgroundColor: "#f6f7f9",
                         color: "#5842be",
+                        width: 280,
+                        borderRadius: 20,
                       }}
-                      id="demo-simple-select-outlined-label"
                     >
-                      Choose A Tag
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs>
-                  <h3>Sub-concepts</h3>
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    style={{
-                      backgroundColor: "#f6f7f9",
-                      color: "#5842be",
-                      width: 280,
-                    }}
-                  >
-                    <InputLabel
+                      <InputLabel id="demo-simple-select-filled-label">
+                        Choose A Tag
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-filled-label"
+                        style={{
+                          backgroundColor: "#f6f7f9",
+                          color: "#b6b6b6",
+                          width: 280,
+                          fontWeight: "bolder",
+                          borderRadius: 10,
+                        }}
+                        id="demo-simple-select-filled"
+                        value={age}
+                        onChange={handleChange}
+                        className={classes.selectAll}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs>
+                    <h3 style={{ marginLeft: 7 }}>Sub-concepts</h3>
+                    <FormControl
+                      variant="filled"
+                      className={classes.formControl}
                       style={{
                         backgroundColor: "#f6f7f9",
                         color: "#5842be",
+                        width: 280,
+                        borderRadius: 10,
                       }}
-                      id="demo-simple-select-outlined-label"
                     >
-                      Choose A Tag
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
+                      <InputLabel id="demo-simple-select-filled-label">
+                        Choose A Tag
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                        value={age}
+                        style={{
+                          backgroundColor: "#f6f7f9",
+                          color: "#b6b6b6",
+                          width: 280,
+                          fontWeight: "bolder",
+                          borderRadius: 10,
+                        }}
+                        onChange={handleChange}
+                        className={classes.selectAll}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>{" "}
+              </div>
+            ) : null}
+            {subject === "chemistry" ? (
+              <div>
+                <Grid
+                  style={{ marginLeft: 35, marginTop: 20 }}
+                  container
+                  spacing={3}
+                >
+                  <Grid item xs>
+                    <h3>Chapters</h3>
+                    <Card
+                      style={{
+                        backgroundColor: "#f6f7f9",
+                        border: 0,
+                        width: 350,
+                        borderRadius: 20,
+                      }}
+                      variant="outlined"
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>{" "}
-            </TabPanel>
-            <TabPanel value={value} index={1} dir={theme.direction}>
-              <Grid container spacing={3}>
-                <Grid item xs>
-                  <h3>Chapters</h3>
-                  <Card
-                    style={{
-                      backgroundColor: "#f6f7f9",
-                      border: 0,
-                    }}
-                    className={classes.root}
-                    variant="outlined"
-                  >
-                    <CardContent>
-                      <Chip
-                        style={{
-                          marginLeft: 5,
-                          backgroundColor: "#5842be",
-                          color: "#f6f7f9",
-                        }}
-                        size="small"
-                        label="Basic"
-                        color="primary"
-                      />
-                      <Chip
-                        style={{
-                          marginLeft: 5,
-                          backgroundColor: "#5842be",
-                          color: "#f6f7f9",
-                        }}
-                        size="small"
-                        label="Basic"
-                        color="primary"
-                      />
-                      <Chip
-                        style={{
-                          marginLeft: 5,
-                          backgroundColor: "#5842be",
-                          color: "#f6f7f9",
-                        }}
-                        size="small"
-                        label="Basic"
-                        color="primary"
-                      />
-                      {checkboxes}
-                    </CardContent>
-                    <CardActions></CardActions>
-                  </Card>
-                </Grid>
-                <Grid item xs>
-                  <h3>Concepts</h3>
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    style={{
-                      backgroundColor: "#f6f7f9",
-                      color: "#5842be",
-                      width: 280,
-                    }}
-                  >
-                    <InputLabel
+                      <CardContent>
+                        <Chip
+                          style={{
+                            marginLeft: 5,
+                            backgroundColor: "#5842be",
+                            color: "#f6f7f9",
+                            marginBottom: 20,
+                          }}
+                          size="small"
+                          label="Trignometry"
+                        />
+                        <Chip
+                          style={{
+                            marginLeft: 5,
+                            backgroundColor: "#5842be",
+                            color: "#f6f7f9",
+                            marginBottom: 20,
+                          }}
+                          size="small"
+                          label="Basic"
+                          color="Progression"
+                        />
+                        <Chip
+                          style={{
+                            marginLeft: 5,
+                            backgroundColor: "#5842be",
+                            color: "#f6f7f9",
+                            marginBottom: 20,
+                          }}
+                          size="small"
+                          label="Basic"
+                          color="Probability"
+                        />
+                        {checkboxes}
+                      </CardContent>
+                      <CardActions></CardActions>
+                    </Card>
+                  </Grid>
+                  <Grid item xs>
+                    <h3 style={{ marginLeft: 7 }}>Concepts</h3>
+                    <FormControl
+                      variant="filled"
+                      className={classes.formControl}
                       style={{
                         backgroundColor: "#f6f7f9",
                         color: "#5842be",
+                        width: 280,
+                        borderRadius: 20,
                       }}
-                      id="demo-simple-select-outlined-label"
                     >
-                      Choose A Tag
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs>
-                  <h3>Sub-concepts</h3>
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    style={{
-                      backgroundColor: "#f6f7f9",
-                      color: "#5842be",
-                      width: 280,
-                    }}
-                  >
-                    <InputLabel
+                      <InputLabel id="demo-simple-select-filled-label">
+                        Choose A Tag
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-filled-label"
+                        style={{
+                          backgroundColor: "#f6f7f9",
+                          color: "#b6b6b6",
+                          width: 280,
+                          fontWeight: "bolder",
+                          borderRadius: 10,
+                        }}
+                        id="demo-simple-select-filled"
+                        value={age}
+                        onChange={handleChange}
+                        className={classes.selectAll}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs>
+                    <h3 style={{ marginLeft: 7 }}>Sub-concepts</h3>
+                    <FormControl
+                      variant="filled"
+                      className={classes.formControl}
                       style={{
                         backgroundColor: "#f6f7f9",
                         color: "#5842be",
+                        width: 280,
+                        borderRadius: 10,
                       }}
-                      id="demo-simple-select-outlined-label"
                     >
-                      Choose A Tag
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
+                      <InputLabel id="demo-simple-select-filled-label">
+                        Choose A Tag
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                        value={age}
+                        style={{
+                          backgroundColor: "#f6f7f9",
+                          color: "#b6b6b6",
+                          width: 280,
+                          fontWeight: "bolder",
+                          borderRadius: 10,
+                        }}
+                        onChange={handleChange}
+                        className={classes.selectAll}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>{" "}
+              </div>
+            ) : null}
+            {subject === "maths" ? (
+              <div>
+                <Grid
+                  style={{ marginLeft: 35, marginTop: 20 }}
+                  container
+                  spacing={3}
+                >
+                  <Grid item xs>
+                    <h3>Chapters</h3>
+                    <Card
+                      style={{
+                        backgroundColor: "#f6f7f9",
+                        border: 0,
+                        width: 350,
+                        borderRadius: 20,
+                      }}
+                      variant="outlined"
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>{" "}
-            </TabPanel>
-            <TabPanel value={value} index={2} dir={theme.direction}>
-              <Grid container spacing={3}>
-                <Grid item xs>
-                  <h3>Chapters</h3>
-                  <Card
-                    style={{
-                      backgroundColor: "#f6f7f9",
-                      border: 0,
-                    }}
-                    className={classes.root}
-                    variant="outlined"
-                  >
-                    <CardContent>
-                      <Chip
-                        style={{
-                          marginLeft: 5,
-                          backgroundColor: "#5842be",
-                          color: "#f6f7f9",
-                        }}
-                        size="small"
-                        label="Basic"
-                        color="primary"
-                      />
-                      <Chip
-                        style={{
-                          marginLeft: 5,
-                          backgroundColor: "#5842be",
-                          color: "#f6f7f9",
-                        }}
-                        size="small"
-                        label="Basic"
-                        color="primary"
-                      />
-                      <Chip
-                        style={{
-                          marginLeft: 5,
-                          backgroundColor: "#5842be",
-                          color: "#f6f7f9",
-                        }}
-                        size="small"
-                        label="Basic"
-                        color="primary"
-                      />
-                      {checkboxes}
-                    </CardContent>
-                    <CardActions></CardActions>
-                  </Card>
-                </Grid>
-                <Grid item xs>
-                  <h3>Concepts</h3>
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    style={{
-                      backgroundColor: "#f6f7f9",
-                      color: "#5842be",
-                      width: 280,
-                    }}
-                  >
-                    <InputLabel
+                      <CardContent>
+                        <Chip
+                          style={{
+                            marginLeft: 5,
+                            backgroundColor: "#5842be",
+                            color: "#f6f7f9",
+                            marginBottom: 20,
+                          }}
+                          size="small"
+                          label="Trignometry"
+                        />
+                        <Chip
+                          style={{
+                            marginLeft: 5,
+                            backgroundColor: "#5842be",
+                            color: "#f6f7f9",
+                            marginBottom: 20,
+                          }}
+                          size="small"
+                          label="Basic"
+                          color="Progression"
+                        />
+                        <Chip
+                          style={{
+                            marginLeft: 5,
+                            backgroundColor: "#5842be",
+                            color: "#f6f7f9",
+                            marginBottom: 20,
+                          }}
+                          size="small"
+                          label="Basic"
+                          color="Probability"
+                        />
+                        {checkboxes}
+                      </CardContent>
+                      <CardActions></CardActions>
+                    </Card>
+                  </Grid>
+                  <Grid item xs>
+                    <h3 style={{ marginLeft: 7 }}>Concepts</h3>
+                    <FormControl
+                      variant="filled"
+                      className={classes.formControl}
                       style={{
                         backgroundColor: "#f6f7f9",
                         color: "#5842be",
+                        width: 280,
+                        borderRadius: 20,
                       }}
-                      id="demo-simple-select-outlined-label"
                     >
-                      Choose A Tag
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs>
-                  <h3>Sub-concepts</h3>
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    style={{
-                      backgroundColor: "#f6f7f9",
-                      color: "#5842be",
-                      width: 280,
-                    }}
-                  >
-                    <InputLabel
+                      <InputLabel id="demo-simple-select-filled-label">
+                        Choose A Tag
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-filled-label"
+                        style={{
+                          backgroundColor: "#f6f7f9",
+                          color: "#b6b6b6",
+                          width: 280,
+                          fontWeight: "bolder",
+                          borderRadius: 10,
+                        }}
+                        id="demo-simple-select-filled"
+                        value={age}
+                        onChange={handleChange}
+                        className={classes.selectAll}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs>
+                    <h3 style={{ marginLeft: 7 }}>Sub-concepts</h3>
+                    <FormControl
+                      variant="filled"
+                      className={classes.formControl}
                       style={{
                         backgroundColor: "#f6f7f9",
                         color: "#5842be",
+                        width: 280,
+                        borderRadius: 10,
                       }}
-                      id="demo-simple-select-outlined-label"
                     >
-                      Choose A Tag
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={age}
-                      onChange={handleChange}
-                      label="Age"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>{" "}
-            </TabPanel>
-          </SwipeableViews>
+                      <InputLabel id="demo-simple-select-filled-label">
+                        Choose A Tag
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                        value={age}
+                        style={{
+                          backgroundColor: "#f6f7f9",
+                          color: "#b6b6b6",
+                          width: 280,
+                          fontWeight: "bolder",
+                          borderRadius: 10,
+                        }}
+                        onChange={handleChange}
+                        className={classes.selectAll}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>{" "}
+              </div>
+            ) : null}
+          </div>
         </div>
       </main>
     </div>
