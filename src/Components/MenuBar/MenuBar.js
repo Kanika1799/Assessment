@@ -12,12 +12,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import Button from "@material-ui/core/Button";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
-import { useTheme } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -25,7 +20,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputBase from "@material-ui/core/InputBase";
-import { fade } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -37,15 +31,10 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Avatar from "@material-ui/core/Avatar";
 import { purple } from "@material-ui/core/colors";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import FormatAlignLeftIcon from "@material-ui/icons/FormatAlignLeft";
-import FormatAlignCenterIcon from "@material-ui/icons/FormatAlignCenter";
-import FormatAlignRightIcon from "@material-ui/icons/FormatAlignRight";
-import FormatAlignJustifyIcon from "@material-ui/icons/FormatAlignJustify";
+
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import BuildOutlinedIcon from "@material-ui/icons/BuildOutlined";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 
 const drawerWidth = 240;
@@ -75,12 +64,6 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
-  };
-}
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -259,15 +242,10 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
-    flexGrow: 1,
-  },
 }));
 
 export default function MenuBar() {
   const classes = useStyles();
-  const theme = useTheme();
-  const [value, setValue] = React.useState(0);
   const [subject, setSubject] = React.useState("chemistry");
 
   const handleSubject = (event, newSubject) => {
@@ -334,16 +312,13 @@ export default function MenuBar() {
   }
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
     setAge(event.target.value);
     setState({ ...state, [event.target.name]: event.target.checked });
   };
   const [state, setState] = React.useState({
     checkedB: true,
   });
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
+
   const [age, setAge] = React.useState("");
 
   const [selectedIndex, setSelectedIndex] = React.useState(1);
